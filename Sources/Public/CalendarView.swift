@@ -43,8 +43,9 @@ public final class CalendarView: UIView {
   ///
   /// - Parameters:
   ///   - initialContent: The content to use when initially rendering `CalendarView`.
-  public init(initialContent: CalendarViewContent) {
+  public init(initialContent: CalendarViewContent, isScrollEnabled: Bool = true) {
     content = initialContent
+    self.isScrollEnabled = isScrollEnabled
     super.init(frame: .zero)
     commonInit()
   }
@@ -53,6 +54,7 @@ public final class CalendarView: UIView {
     let startDate = Date() // now
     let endDate = Date(timeIntervalSinceNow: 31_536_000) // one year from now
     content = CalendarViewContent(visibleDateRange: startDate...endDate, monthsLayout: .vertical)
+    isScrollEnabled = true
     super.init(coder: coder)
     commonInit()
   }
@@ -101,6 +103,12 @@ public final class CalendarView: UIView {
   /// The range of days that are partially or fully visible.
   public var visibleDayRange: DayComponentsRange? {
     visibleItemsDetails?.visibleDayRange
+  }
+    
+  public var isScrollEnabled: Bool {
+      didSet {
+          scrollView.isScrollEnabled = isScrollEnabled
+      }
   }
 
   /// `CalendarView` only supports positive values for `layoutMargins`. Negative values will be changed to `0`.
