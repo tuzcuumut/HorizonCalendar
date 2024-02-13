@@ -43,9 +43,8 @@ public final class CalendarView: UIView {
   ///
   /// - Parameters:
   ///   - initialContent: The content to use when initially rendering `CalendarView`.
-  public init(initialContent: CalendarViewContent, isScrollEnabled: Bool = true) {
+  public init(initialContent: CalendarViewContent) {
     content = initialContent
-    self.isScrollEnabled = isScrollEnabled
     super.init(frame: .zero)
     commonInit()
   }
@@ -54,7 +53,6 @@ public final class CalendarView: UIView {
     let startDate = Date() // now
     let endDate = Date(timeIntervalSinceNow: 31_536_000) // one year from now
     content = CalendarViewContent(visibleDateRange: startDate...endDate, monthsLayout: .vertical)
-    isScrollEnabled = true
     super.init(coder: coder)
     commonInit()
   }
@@ -105,7 +103,7 @@ public final class CalendarView: UIView {
     visibleItemsDetails?.visibleDayRange
   }
     
-  public var isScrollEnabled: Bool {
+  public var isScrollEnabled: Bool = true {
       didSet {
           scrollView.isScrollEnabled = isScrollEnabled
       }
@@ -411,7 +409,7 @@ public final class CalendarView: UIView {
     scrollView.showsVerticalScrollIndicator = false
     scrollView.showsHorizontalScrollIndicator = false
     scrollView.delegate = scrollViewDelegate
-    scrollView.isScrollEnabled = false
+    scrollView.isScrollEnabled = isScrollEnabled
     return scrollView
   }()
 
