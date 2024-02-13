@@ -411,6 +411,7 @@ public final class CalendarView: UIView {
     scrollView.showsVerticalScrollIndicator = false
     scrollView.showsHorizontalScrollIndicator = false
     scrollView.delegate = scrollViewDelegate
+    scrollView.isScrollEnabled = false
     return scrollView
   }()
 
