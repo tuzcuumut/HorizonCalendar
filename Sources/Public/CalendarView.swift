@@ -646,6 +646,7 @@ public final class CalendarView: UIView {
     installDoubleLayoutPassSizingLabel()
 
     setContent(content)
+    scrollToLast(animated: false)
 
     NotificationCenter.default.addObserver(
       self,
@@ -658,6 +659,21 @@ public final class CalendarView: UIView {
       selector: #selector(setNeedsLayout),
       name: UIAccessibility.voiceOverStatusDidChangeNotification,
       object: nil)
+  }
+    
+  private func scrollToLast(animated: Bool) {
+      switch scrollMetricsMutator.scrollAxis {
+      case .horizontal:
+          let trailingOffset = CGPoint(x: 0, y: scrollView.contentSize.width - scrollView.bounds.size.width + scrollView.contentInset.left)
+          if trailingOffset.x > 0 {
+            scrollView.setContentOffset(trailingOffset, animated: animated)
+          }
+      case .vertical:
+        let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height + scrollView.contentInset.bottom)
+        if bottomOffset.y > 0 {
+            scrollView.setContentOffset(bottomOffset, animated: animated)
+        }
+      }
   }
 
   private func anchorLayoutItem(
